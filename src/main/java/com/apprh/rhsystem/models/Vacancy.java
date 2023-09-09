@@ -25,6 +25,7 @@ public class Vacancy implements Serializable {
                 joinColumns = @JoinColumn(name = "vacancy_id"),
                 inverseJoinColumns = @JoinColumn(name = "applicant_id"))
     private Set<Applicant> applicants;
+
     public Long getCode() {
         return code;
     }
