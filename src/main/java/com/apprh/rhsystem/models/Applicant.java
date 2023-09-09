@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,7 +19,7 @@ public class Applicant implements Serializable {
     @NotEmpty @Column(unique = true)
     private String email;
     @ManyToMany(mappedBy = "applicants")
-    private Set<Vacancy> vacanciesApplied;
+    private Set<Vacancy> vacanciesApplied = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -58,5 +59,9 @@ public class Applicant implements Serializable {
 
     public void setVacanciesApplied(Set<Vacancy> vacanciesApplied) {
         this.vacanciesApplied = vacanciesApplied;
+    }
+
+    public void addVacancy(Vacancy vacancy) {
+        this.vacanciesApplied.add(vacancy);
     }
 }

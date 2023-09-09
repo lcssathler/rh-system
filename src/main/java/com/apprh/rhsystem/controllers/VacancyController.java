@@ -70,4 +70,21 @@ public class VacancyController {
         vacancyRepository.delete(vacancy);
         return "redirect:vacancies";
     }
+
+    public String vacancyDetailsPost(@PathVariable("code") Long code, @Valid Applicant applicant,
+                                     BindingResult result, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            attributes.addFlashAttribute("message", "Invalid fields");
+        }
+
+        if (applicantRepository.findByDocument(applicant.getDocument()) != null) {
+            attributes.addFlashAttribute("message_error", "Document already registered");
+        }
+
+        Vacancy vacancy = vacancyRepository.findByCode(code);
+        applicant.addVacancy(vacancy);
+        applicantRepository.save(applicant);
+        attributes.addFlashAttribute("message", "Applicant saved successfully");
+        return "redirect:/{code}";
+    }
 }
